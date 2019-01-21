@@ -7,13 +7,6 @@
     tools:context=".MainActivity">
 
 
-    <android.support.constraint.Guideline
-        android:id="@+id/guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.35" />
-
     <TextView
         android:id="@+id/textView_title_currentGPS"
         android:layout_width="0dp"
@@ -51,7 +44,6 @@
         android:ems="10"
         android:enabled="false"
         android:inputType="textPersonName"
-        android:text="None"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textColor="@android:color/black"
@@ -69,6 +61,16 @@
         app:layout_constraintStart_toStartOf="@+id/textView_currentGPS_lng"
         app:layout_constraintTop_toBottomOf="@+id/editText_currentGPS_lng" />
 
+    <TextView
+        android:id="@+id/textView_distance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="距離："
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintStart_toStartOf="@+id/textView_currentGPS_lat"
+        app:layout_constraintTop_toBottomOf="@+id/editText_currentGPS_lat" />
+
     <EditText
         android:id="@+id/editText_currentGPS_lat"
         android:layout_width="wrap_content"
@@ -77,7 +79,6 @@
         android:ems="10"
         android:enabled="false"
         android:inputType="textPersonName"
-        android:text="None"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textColor="@android:color/black"
@@ -85,24 +86,64 @@
         app:layout_constraintStart_toEndOf="@+id/textView_currentGPS_lat"
         app:layout_constraintTop_toTopOf="@+id/textView_currentGPS_lat" />
 
+    <EditText
+        android:id="@+id/editText_distance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:ems="10"
+        android:enabled="false"
+        android:inputType="textPersonName"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="@android:color/black"
+        app:layout_constraintBottom_toBottomOf="@+id/textView_distance"
+        app:layout_constraintStart_toEndOf="@+id/textView_distance"
+        app:layout_constraintTop_toTopOf="@+id/textView_distance" />
+
     <Button
-        android:id="@+id/button_setLocation"
+        android:id="@+id/button_open"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:onClick="setLocation"
-        android:text="設為定位點"
+        android:onClick="openLocationTracking"
+        android:text="開啟定位追蹤"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/editText_currentGPS_lat"
-        app:layout_constraintTop_toBottomOf="@+id/editText_currentGPS_lat" />
+        app:layout_constraintStart_toStartOf="@+id/button_set"
+        app:layout_constraintTop_toBottomOf="@+id/button_set" />
+
+    <Button
+        android:id="@+id/button_set"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:onClick="setLocation"
+        android:text="設定目前位置為基準點"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/textView_distance"
+        app:layout_constraintTop_toBottomOf="@+id/editText_distance" />
+
+    <Button
+        android:id="@+id/button_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:onClick="closeLocationTracking"
+        android:text="關閉定位追蹤"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/button_open"
+        app:layout_constraintTop_toBottomOf="@+id/button_open" />
 
     <TextView
         android:id="@+id/textView_title_status"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:background="@android:color/darker_gray"
         android:padding="8dp"
@@ -113,40 +154,7 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline" />
-
-    <Switch
-        android:id="@+id/switch_internet"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
-        android:enabled="false"
-        android:text="是否開啟網路連線："
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView_title_status" />
-
-    <Switch
-        android:id="@+id/switch_location"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:enabled="false"
-        android:text="是否開啟定位功能："
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        app:layout_constraintStart_toStartOf="@+id/switch_internet"
-        app:layout_constraintTop_toBottomOf="@+id/switch_internet" />
-
-    <Switch
-        android:id="@+id/switch_loc_listening"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="開啟定位監聽："
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        app:layout_constraintStart_toStartOf="@+id/switch_location"
-        app:layout_constraintTop_toBottomOf="@+id/switch_location" />
+        app:layout_constraintTop_toBottomOf="@+id/button_close" />
 
 
 </android.support.constraint.ConstraintLayout>

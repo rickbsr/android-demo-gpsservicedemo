@@ -10,8 +10,8 @@ import android.os.Bundle;
 
 public class Gps {
 
-    private Location location;
     private LocationManager locationManager;
+    private Location location;
 
     @SuppressLint("MissingPermission")
     public Gps(Context context) {
@@ -19,8 +19,7 @@ public class Gps {
                 (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
 
         this.location = locationManager.getLastKnownLocation(getProvider());
-
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5 * 1000, 10, listener);
+        this.locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, listener);
     }
 
     // 获取Location Provider
@@ -51,15 +50,18 @@ public class Gps {
     private LocationListener listener = new LocationListener() {
         @Override
         public void onLocationChanged(Location l) {
+            // 當位置發生改變
             if (l != null) location = l;
         }
 
         @Override
         public void onStatusChanged(String provider, int status, Bundle bundle) {
+            // 當用戶狀態發生改變
         }
 
         @Override
         public void onProviderEnabled(String provider) {
+            // 當用戶開啟調用
             @SuppressLint("MissingPermission") Location l = locationManager.getLastKnownLocation(provider);
             if (l != null) {
                 location = l;
@@ -68,49 +70,12 @@ public class Gps {
 
         @Override
         public void onProviderDisabled(String provider) {
+            // 當用戶關閉調用
             location = null;
         }
     };
 
-//    private LocationListener locationListener = new LocationListener() {
-//        // 位置发生改变后调用
-//        public void onLocationChanged(Location l) {
-//            if (l != null) {
-//                location = l;
-//            }
-//        }
-//
-//        // provider 被用户关闭后调用
-//        public void onProviderDisabled(String provider) {
-//            location = null;
-//        }
-//
-//        // provider 被用户开启后调用
-//        public void onProviderEnabled(String provider) {
-//            Location l = locationManager.getLastKnownLocation(provider);
-//            if (l != null) {
-//                location = l;
-//            }
-//
-//        }
-//
-//        // provider 状态变化时调用
-//        public void onStatusChanged(String provider, int status, Bundle extras) {
-//        }
-//
-//    };
-
     public Location getLocation() {
         return location;
     }
-
-//    public void closeLocation() {
-//        if (locationManager != null) {
-//            if (locationListener != null) {
-//                locationManager.removeUpdates(locationListener);
-//                locationListener = null;
-//            }
-//            locationManager = null;
-//        }
-//    }
 }
