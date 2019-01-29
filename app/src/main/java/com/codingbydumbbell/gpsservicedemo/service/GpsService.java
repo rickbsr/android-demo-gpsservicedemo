@@ -65,7 +65,6 @@ public class GpsService extends Service {
         // 開啟常駐通知
         startForeground(NotifyID, notification);
 
-
         final Gps gps = new Gps(this);
 
         new Thread(new Runnable() {
@@ -95,7 +94,7 @@ public class GpsService extends Service {
                         Log.d(TAG, "distance: " + f[0]);
                     }
 
-                    String str = String.format("record-%d", i++ % 5);
+                    String str = String.format("record-%d", i = i++ % 5);
 
                     FirebaseDatabase.getInstance()
                             .getReference("users")

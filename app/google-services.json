@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "754087162403",
+    "firebase_url": "https://codingbydumbbell-demo.firebaseio.com",
+    "project_id": "codingbydumbbell-demo",
+    "storage_bucket": "codingbydumbbell-demo.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:754087162403:android:d53ab39b7538f697",
+        "android_client_info": {
+          "package_name": "com.codingbydumbbell.gpsservicedemo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "754087162403-qo93vvpov869lhnfubbmjut22i3ekshs.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.codingbydumbbell.gpsservicedemo",
+            "certificate_hash": "0d9189f30d9f7a93dfecb7e2e30c411c1367048d"
+          }
+        },
+        {
+          "client_id": "754087162403-u4d32mkehr27hduv2il51m1aqs0ipvbe.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDRcvAx1ErOGog2GE49U5jjuMerWVw2fNE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "754087162403-u4d32mkehr27hduv2il51m1aqs0ipvbe.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
