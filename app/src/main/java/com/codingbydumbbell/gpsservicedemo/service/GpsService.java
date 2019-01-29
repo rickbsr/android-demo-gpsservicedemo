@@ -1,21 +1,19 @@
 package com.codingbydumbbell.gpsservicedemo.service;
 
 import android.app.Notification;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.os.IBinder;
-import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.codingbydumbbell.gpsservicedemo.MainActivity;
 import com.codingbydumbbell.gpsservicedemo.R;
 import com.codingbydumbbell.gpsservicedemo.tools.Gps;
 import com.codingbydumbbell.gpsservicedemo.userInfo.UserInfo;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Date;
 
@@ -74,6 +72,8 @@ public class GpsService extends Service {
             @Override
             public void run() {
 
+                int i = 0;
+
                 while (isTrackingGPS) {
                     Location l = gps.getLocation();
 
@@ -88,21 +88,35 @@ public class GpsService extends Service {
 
                     if (l == null) continue;
 
-                    UserInfo.currentLat = l.getLatitude();
-                    UserInfo.currentLng = l.getLongitude();
+                    float[] f = new float[1];
 
                     if (UserInfo.originLat != 0 && UserInfo.originLng != 0) {
-
-                        float[] f = new float[1];
                         Location.distanceBetween(UserInfo.originLat, UserInfo.originLng, l.getLatitude(), l.getLongitude(), f);
                         Log.d(TAG, "distance: " + f[0]);
-                        UserInfo.distance = f[0];
                     }
 
-                    // 發送廣播
-                    Intent locIntent = new Intent();
-                    locIntent.setAction("com.codingbydumbbell.gpsservicedemo");
-                    sendBroadcast(locIntent);
+                    String str = String.format("record-%d", i++ % 5);
+
+                    FirebaseDatabase.getInstance()
+                            .getReference("users")
+                            .child(UserInfo.userUid)
+                            .child("LngLat")
+                            .child(str)
+                            .setValue(l.getLongitude() + "," + l.getLatitude());
+
+                    FirebaseDatabase.getInstance()
+                            .getReference("users")
+                            .child(UserInfo.userUid)
+                            .child("LngLat")
+                            .child("now")
+                            .setValue(l.getLongitude() + "," + l.getLatitude());
+
+                    FirebaseDatabase.getInstance()
+                            .getReference("users")
+                            .child(UserInfo.userUid)
+                            .child("LngLat")
+                            .child("distance")
+                            .setValue(f[0]);
                 }
             }
         }).start();

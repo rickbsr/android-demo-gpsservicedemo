@@ -20,6 +20,7 @@ public class Gps {
 
         this.location = locationManager.getLastKnownLocation(getProvider());
         this.locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, listener);
+        this.locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, listener);
     }
 
     // 获取Location Provider
