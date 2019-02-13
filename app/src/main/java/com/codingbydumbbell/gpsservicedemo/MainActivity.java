@@ -51,8 +51,6 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
 
         // Firebase auth：要傾聽登入狀態需要實作 FirebaseAuth.AuthStateListener
         auth = FirebaseAuth.getInstance();
-
-
     }
 
     // findViews
@@ -117,7 +115,6 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
     public void closeLocationTracking(View view) {
         stopService(new Intent(context, GpsService.class));
     }
-
 
     public void setLocation(View view) {
 
