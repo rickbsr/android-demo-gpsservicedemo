@@ -61,16 +61,6 @@
         app:layout_constraintStart_toStartOf="@+id/textView_currentGPS_lng"
         app:layout_constraintTop_toBottomOf="@+id/editText_currentGPS_lng" />
 
-    <TextView
-        android:id="@+id/textView_distance"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="距離："
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        app:layout_constraintStart_toStartOf="@+id/textView_currentGPS_lat"
-        app:layout_constraintTop_toBottomOf="@+id/editText_currentGPS_lat" />
-
     <EditText
         android:id="@+id/editText_currentGPS_lat"
         android:layout_width="wrap_content"
@@ -86,55 +76,31 @@
         app:layout_constraintStart_toEndOf="@+id/textView_currentGPS_lat"
         app:layout_constraintTop_toTopOf="@+id/textView_currentGPS_lat" />
 
-    <EditText
-        android:id="@+id/editText_distance"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:ems="10"
-        android:enabled="false"
-        android:inputType="textPersonName"
-        android:textAlignment="center"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColor="@android:color/black"
-        app:layout_constraintBottom_toBottomOf="@+id/textView_distance"
-        app:layout_constraintStart_toEndOf="@+id/textView_distance"
-        app:layout_constraintTop_toTopOf="@+id/textView_distance" />
-
     <Button
         android:id="@+id/button_open"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="8dp"
         android:onClick="openLocationTracking"
         android:text="開啟定位追蹤"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/button_set"
-        app:layout_constraintTop_toBottomOf="@+id/button_set" />
-
-    <Button
-        android:id="@+id/button_set"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:onClick="setLocation"
-        android:text="設定目前位置為基準點"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/textView_distance"
-        app:layout_constraintTop_toBottomOf="@+id/editText_distance" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText_currentGPS_lat" />
 
     <Button
         android:id="@+id/button_close"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:onClick="closeLocationTracking"
         android:text="關閉定位追蹤"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/button_open"
         app:layout_constraintStart_toStartOf="@+id/button_open"
         app:layout_constraintTop_toBottomOf="@+id/button_open" />
 
@@ -142,10 +108,13 @@
         android:id="@+id/imageView"
         android:layout_width="223dp"
         android:layout_height="220dp"
-        android:layout_marginStart="68dp"
-        android:layout_marginTop="136dp"
-        app:layout_constraintStart_toStartOf="@+id/editText_distance"
-        app:layout_constraintTop_toBottomOf="@+id/editText_distance"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_close"
         app:srcCompat="@drawable/gps_logo" />
 
 

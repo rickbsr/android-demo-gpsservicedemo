@@ -39,14 +39,13 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
 
     private EditText editText_currentLng;
     private EditText editText_currentLat;
-    private EditText editText_distance;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        context = this;
         findViews();
 
         // Firebase auth：要傾聽登入狀態需要實作 FirebaseAuth.AuthStateListener
@@ -55,35 +54,26 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
 
     // findViews
     private void findViews() {
-        context = this;
-
         editText_currentLng = findViewById(R.id.editText_currentGPS_lng);
         editText_currentLat = findViewById(R.id.editText_currentGPS_lat);
-        editText_distance = findViewById(R.id.editText_distance);
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == REQUEST_CODE_LOCATION &&
-                grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+        if (requestCode == REQUEST_CODE_LOCATION && grantResults[0] == PackageManager.PERMISSION_GRANTED)
             openGpsService();
-        }
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-
-        // 加入傾聽，在 onStart() 可以避免無時無刻都在傾聽
-        auth.addAuthStateListener(this);
+        auth.addAuthStateListener(this); // 加入傾聽，在 onStart() 可以避免無時無刻都在傾聽
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-
-        // 移除傾聽
-        auth.removeAuthStateListener(this);
+        auth.removeAuthStateListener(this); // 移除傾聽
     }
 
     // 開啟 GPS
@@ -93,63 +83,38 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
         if (!Utils.isOnline(context) || !Utils.isLocOpen(context)) return;
 
         // 如果 GpsService 尚未執行
-        if (!Utils.isServiceRunning(context, GpsService.class.getName()))
-            openGpsService();
+        if (!Utils.isServiceRunning(context, GpsService.class.getName())) openGpsService();
     }
 
     // 開啟 GpsService
-    private void openGpsService() {
-
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                    REQUEST_CODE_LOCATION);
-            return;
-        }
-        startService(new Intent(context, GpsService.class));
+private void openGpsService() {
+    if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+            ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE_LOCATION);
         return;
     }
+    startService(new Intent(context, GpsService.class));
+    return;
+}
 
     // 關閉 GPS
     public void closeLocationTracking(View view) {
         stopService(new Intent(context, GpsService.class));
     }
 
-    public void setLocation(View view) {
-
-        String lng = editText_currentLng.getText().toString();
-        String lat = editText_currentLat.getText().toString();
-
-        FirebaseDatabase.getInstance()
-                .getReference("users")
-                .child(UserInfo.userUid)
-                .child("LngLat")
-                .child("origin")
-                .setValue(lng + "," + lat);
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        switch (id) {
+        switch (item.getItemId()) {
             case R.id.action_signout: // 登出
                 auth.signOut();
                 break;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -171,10 +136,8 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
                     .child(UserInfo.userUid)
                     .child("diplayName").setValue(displayName);
         } else {
-
             // 代表使用者尚未登入
             startActivityForResult(
-
                     // 透過 AuthUI 建立 intent
                     AuthUI.getInstance().createSignInIntentBuilder()
                             .setAvailableProviders(Arrays.asList(
@@ -216,24 +179,6 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
                             String[] loc = dataSnapshot.getValue().toString().split(",");
                             editText_currentLng.setText(loc[0]);
                             editText_currentLat.setText(loc[1]);
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                    }
-                });
-
-        FirebaseDatabase.getInstance().getReference("users")
-                .child(UserInfo.userUid)
-                .child("LngLat")
-                .child("distance")
-                .addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        if (dataSnapshot.getValue() != null) {
-                            editText_distance.setText(dataSnapshot.getValue().toString());
                         }
                     }
 

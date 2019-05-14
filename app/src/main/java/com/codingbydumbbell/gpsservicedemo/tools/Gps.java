@@ -15,10 +15,10 @@ public class Gps {
 
     @SuppressLint("MissingPermission")
     public Gps(Context context) {
-        this.locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
-//        this.location = locationManager.getLastKnownLocation(getProvider());
-        this.locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, listener);
-        this.locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, listener);
+        locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+//        location = locationManager.getLastKnownLocation(getProvider());
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, listener);
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, listener);
     }
 
     // 获取 Location Provider
