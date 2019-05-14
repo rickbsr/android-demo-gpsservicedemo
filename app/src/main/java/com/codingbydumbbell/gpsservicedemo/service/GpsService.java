@@ -30,7 +30,6 @@ public class GpsService extends Service {
     public void onCreate() {
         super.onCreate();
         isTrackingGPS = true;
-
         Log.d(TAG, "onCreate: ");
     }
 
@@ -40,9 +39,7 @@ public class GpsService extends Service {
 
         // 建立常駐通知欄位(提高優先級, 避免 service 被殺死)
         Notification.Builder builder =
-                new Notification.Builder(
-                        // 建議取得應用層級的 context
-                        this.getApplicationContext());
+                new Notification.Builder(this.getApplicationContext());  // 建議取得應用層級的 context
 
         // 設定通知的 Intent
         Intent nfIntent = new Intent(this, MainActivity.class);
@@ -74,10 +71,10 @@ public class GpsService extends Service {
                 int i = 0;
 
                 while (isTrackingGPS) {
-                    Location l = gps.getLocation();
+                    Location loc = gps.getLocation();
 
-                    Log.d(TAG, "lng: " + l.getLongitude());
-                    Log.d(TAG, "lat: " + l.getLatitude());
+                    Log.d(TAG, "lng: " + loc.getLongitude());
+                    Log.d(TAG, "lat: " + loc.getLatitude());
 
                     try {
                         Thread.sleep(5 * 1000);
@@ -85,12 +82,12 @@ public class GpsService extends Service {
                         e.printStackTrace();
                     }
 
-                    if (l == null) continue;
+                    if (loc == null) continue;
 
                     float[] f = new float[1];
 
                     if (UserInfo.originLat != 0 && UserInfo.originLng != 0) {
-                        Location.distanceBetween(UserInfo.originLat, UserInfo.originLng, l.getLatitude(), l.getLongitude(), f);
+                        Location.distanceBetween(UserInfo.originLat, UserInfo.originLng, loc.getLatitude(), loc.getLongitude(), f);
                         Log.d(TAG, "distance: " + f[0]);
                     }
 
@@ -101,14 +98,14 @@ public class GpsService extends Service {
                             .child(UserInfo.userUid)
                             .child("LngLat")
                             .child(str)
-                            .setValue(l.getLongitude() + "," + l.getLatitude());
+                            .setValue(loc.getLongitude() + "," + loc.getLatitude());
 
                     FirebaseDatabase.getInstance()
                             .getReference("users")
                             .child(UserInfo.userUid)
                             .child("LngLat")
                             .child("now")
-                            .setValue(l.getLongitude() + "," + l.getLatitude());
+                            .setValue(loc.getLongitude() + "," + loc.getLatitude());
 
                     FirebaseDatabase.getInstance()
                             .getReference("users")
@@ -119,17 +116,15 @@ public class GpsService extends Service {
                 }
             }
         }).start();
-
-        // 當 service 被殺死時, 自動重啟
-        return START_STICKY;
+        return START_STICKY;  // 當 service 被殺死時, 自動重啟
     }
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
         isTrackingGPS = false;
         stopForeground(true);
         Log.d(TAG, "onDestroy: ");
+        super.onDestroy();
     }
 
     @Override

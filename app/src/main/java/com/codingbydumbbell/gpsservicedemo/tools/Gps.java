@@ -15,15 +15,13 @@ public class Gps {
 
     @SuppressLint("MissingPermission")
     public Gps(Context context) {
-        this.locationManager =
-                (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
-
-        this.location = locationManager.getLastKnownLocation(getProvider());
+        this.locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+//        this.location = locationManager.getLastKnownLocation(getProvider());
         this.locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, listener);
         this.locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, listener);
     }
 
-    // 获取Location Provider
+    // 获取 Location Provider
     private String getProvider() {
 
         // 构建位置查询条件

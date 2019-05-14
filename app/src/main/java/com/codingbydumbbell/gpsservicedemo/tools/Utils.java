@@ -10,23 +10,15 @@ import java.util.List;
 
 public class Utils {
     public static boolean isServiceRunning(Context context, String className) {
+        List<ActivityManager.RunningServiceInfo> serviceList =
+                ((ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE)).getRunningServices(Integer.MAX_VALUE);
 
-        System.out.println(className);
-        boolean isRunning = false;
-        ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-        List<ActivityManager.RunningServiceInfo> serviceList = activityManager.getRunningServices(Integer.MAX_VALUE);
+        if (serviceList.size() <= 0) return false; // 代表沒有正在使用的 service
 
-        if (!(serviceList.size() > 0)) {
-            return false;
-        }
+        for (int i = 0; i < serviceList.size(); i++)
+            if (serviceList.get(i).service.getClassName().equals(className)) return true;
 
-        for (int i = 0; i < serviceList.size(); i++) {
-            if (serviceList.get(i).service.getClassName().equals(className)) {
-                isRunning = true;
-                break;
-            }
-        }
-        return isRunning;
+        return false;
     }
 
     // 判斷網路是否開啟
