@@ -12,9 +12,10 @@ import android.graphics.Color;
 import android.location.Location;
 import android.os.Build;
 import android.os.IBinder;
-import android.support.annotation.RequiresApi;
-import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+
+import androidx.annotation.RequiresApi;
+import androidx.core.app.NotificationCompat;
 
 import com.codingbydumbbell.gpsservicedemo.MainActivity;
 import com.codingbydumbbell.gpsservicedemo.R;
@@ -116,18 +117,16 @@ public class GpsService extends Service {
                         Log.d(TAG, "distance: " + f[0]);
                     }
 
-                    String str = String.format("record-%d", i++ % 5);
+                    String str = String.format("record-%d", i++ % 10);
 
                     FirebaseDatabase.getInstance()
                             .getReference("users")
-                            .child(UserInfo.userUid)
                             .child("LngLat")
                             .child(str)
                             .setValue(loc.getLongitude() + "," + loc.getLatitude());
 
                     FirebaseDatabase.getInstance()
                             .getReference("users")
-                            .child(UserInfo.userUid)
                             .child("LngLat")
                             .child("now")
                             .setValue(loc.getLongitude() + "," + loc.getLatitude());
